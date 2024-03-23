@@ -12,30 +12,18 @@ Typical usage example:
 """
 
 def write_log(s, path = 'log.out', prnt = True):
-    """Fetches rows from a Smalltable.
+    """Writes a log record to harddrive.
 
-    Retrieves rows pertaining to the given keys from the Table instance
-    represented by table_handle.  String keys will be UTF-8 encoded.
+    Writes a log record in a file in the harddrive, with options to specify
+    the file name or whether to perform a print instruction.
 
     Args:
-        table_handle: An open smalltable.Table instance.
-        keys: A sequence of strings representing the key of each table
-          row to fetch.  String keys will be UTF-8 encoded.
-        require_all_keys: If True only rows with values set for all keys will be
-          returned.
+        s: A string of message to be recorded.
+        path: A file path.
+        prnt: A boolean indicating whether to print or not.
 
     Returns:
-        A dict mapping keys to the corresponding table row data
-        fetched. Each row is represented as a tuple of strings. For
-        example:
-
-        {b'Serak': ('Rigel VII', 'Preparer'),
-         b'Zim': ('Irk', 'Invader'),
-         b'Lrrr': ('Omicron Persei 8', 'Emperor')}
-
-        Returned keys are always bytes.  If a key from the keys argument is
-        missing from the dictionary, then that row was not found in the
-        table (and require_all_keys must have been False).
+        None.
 
     Raises:
         IOError: An error occurred accessing the file.
@@ -49,7 +37,21 @@ def write_log(s, path = 'log.out', prnt = True):
     
 
 def load_node2vec(path: str):
-    ''
+    """Loads Node2Vec embeddings.
+
+    Given a path to a Node2Vec generated file. The function loads the
+    file of key-value store structure and returns it as a dictionary.
+
+    Args:
+        path: A string of a file path.
+
+    Returns:
+        Dictionary of nodes and their embeddings.
+
+    Raises:
+        FileNotFoundError: An error occurred accessing a file that does 
+        not exist.
+    """
     
     embeddings_dict = {}
     with open(path, "r") as f:
@@ -61,7 +63,22 @@ def load_node2vec(path: str):
     return embeddings_dict
 
 def load_glove(path: str):
-    ''
+    """Loads Glove embeddings.
+
+    Given a path to a Glove embeddings. The function loads the
+    file of key-value store structure and returns it as a dictionary.
+
+    Args:
+        path: A string of a file path.
+
+    Returns:
+        Dictionary of words and their embeddings.
+        Keys of the dictionary returned.
+
+    Raises:
+        FileNotFoundError: An error occurred accessing a file that does 
+        not exist.
+    """
     
     embeddings_dict = {}
     with open(path, "r") as f:
@@ -74,7 +91,22 @@ def load_glove(path: str):
     return embeddings_dict, dict_keys
 
 def load_entities(path: str):
-    ''
+    """Loads entities dictionary.
+
+    Given a path to an entities translation file. The function loads the
+    file of entity IDs and their translation to names of text sequences.
+
+    Args:
+        path: A string of a file path.
+
+    Returns:
+        Dictionary of entities IDS as the keys and their corresponding
+        names as the values.
+
+    Raises:
+        FileNotFoundError: An error occurred accessing a file that does 
+        not exist.
+    """
 
     entities_dict = {}
     with open(path) as f:
@@ -86,7 +118,22 @@ def load_entities(path: str):
     return entities_dict
 
 def load_relations(path: str):
-    ''
+    """Loads relations dictionary.
+
+    Given a path to relations translation file. The function loads the
+    file of relation IDs and their translation of text sequences.
+
+    Args:
+        path: A string of a file path.
+
+    Returns:
+        Dictionary of relation IDS as the keys and their corresponding
+        relation translations as the values.
+
+    Raises:
+        FileNotFoundError: An error occurred accessing a file that does 
+        not exist.
+    """
 
     relations = []
     with open(path) as f:
