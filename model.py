@@ -214,13 +214,32 @@ class KGDataset(Dataset):
 
         return averaged_embeddings
     
-    def get_ent_embeddings(self, ent: str, is_head = False, use_description = False):
-        ''
+    def get_ent_embeddings(self, ent: str, is_head = False,
+                           use_description = False):
+        """Returns the node embeddings.
+        
+        Combines and returns the structural and textual embeddings for a
+        node. Performs the padding for the returned matrix by appending
+        vectors of zeros. Also performs the trimming of the extra words.
+
+        Args:
+            ent: The node ID as a string.
+            is_head: A boolean to distinguish the head node from the
+                    tail node. 
+            use_description: A boolean to indicate the usage of node
+                     instead of the node text.
+
+        Returns:
+            A matrix of combined textual and structural embeddings.
+        
+        Raises:
+        
+        """
 
         embeddings = []
         entity_text = self.entities_dict[ent]
 
-        # use description
+        # Use description
         if use_description:
             entity_text = self.descriptions_dict[ent]
 
@@ -261,7 +280,20 @@ class KGDataset(Dataset):
         return embeddings
     
     def __getitem__(self, index):
-        ''
+        """Combines and returns the embeddings of two triple nodes.
+        
+        Combines and returns the embeddings of two nodes as the input
+        for the model.
+
+        Args:
+            index: An integer of the input index in the dataset.
+
+        Returns:
+            A matrix of combined nodes pair embeddings.
+        
+        Raises:
+        
+        """
 
         fields = self.lines[index].strip().split('\t')
         rel = fields[1]
