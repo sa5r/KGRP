@@ -14,6 +14,7 @@ import torch
 from torch.utils.data import Dataset
 from typing import Dict, List
 from utils import Utils
+import networkx as nx
 
 class SelfAttention(torch.nn.Module):
     """The class that implements the self attention layer in the model's
@@ -73,6 +74,15 @@ class RPEST(torch.nn.Module):
 
 class KGDataset(Dataset):
     """The class that defines the node representation component.
+
+    Typical usage example:
+    training_set = KGDataset(path = 'data/FB15K/train.tsv',
+                    entities_dict = entities_dict,
+                    descriptions_dict = descriptions_dict ,
+                    relations = relations, device=device,
+                    settings=settings, node2vec = node2vec,
+                    embeddings_dict = embeddings_dict,
+                    dict_keys = dict_keys,)
     """
 
     def __init__(self, path: str,
@@ -85,7 +95,19 @@ class KGDataset(Dataset):
         embeddings_dict: dict,
         dict_keys,
         ) -> None:
-        ''
+        """This constructor loads the necessary data.
+        
+        The cosntructor loads the structural and textual embedding
+        dictionaries in addition to loading the graph.
+
+        Args:
+
+        Returns:
+            None.
+        
+        Raises:
+
+        """
 
         self.entities_dict = entities_dict
         self.descriptions_dict = descriptions_dict
@@ -95,17 +117,14 @@ class KGDataset(Dataset):
         self.node2vec = node2vec
         self.embeddings_dict = embeddings_dict
         self.dict_keys = dict_keys
-        self.stats = {}
-        self.stats['glove_greedy'] = set()
-        self.stats['glove_not_found'] = set()
         self.utils = Utils()
 
         # Read file
-        # DO NOT FORGET TO Load the graph once and make it global
         f = open(path)
         file_lines = f.readlines()
         f.close()
 
+        # Load lines based on the specified data amount
         self.lines = file_lines[: int(len(file_lines) * settings['SAMPLE_SIZE']) ]
         print(f'\nopened {path}' )
         self.G = nx.MultiGraph()
@@ -127,7 +146,20 @@ class KGDataset(Dataset):
         self.utils.write_log(str(self.G))
         
     def gettext(self, index):
-        ''
+        """Returns the complete details in a triple.
+        
+        Returns the relation text in a triple, in addition to
+        the node IDs and their complete text content.
+
+        Args:
+            index: An integer of the triple index in the dataset.
+
+        Returns:
+            None.
+        
+        Raises:
+        
+        """
 
         fields = self.lines[index].strip().split('\t')
         head = self.entities_dict[fields[0]]
@@ -141,7 +173,22 @@ class KGDataset(Dataset):
         return len(self.lines)
     
     def get_glove_embedding(self, word):
-        'Gets the embeddings of a word from Glove vectors'
+        """Gets the embeddings of a word from the language model.
+        
+        Returns the embeddings as a float vector for a given word. The
+        vector size is the number of dimensions in the language model. The
+        function implements a greedy largest chuck search if the given
+        word is not found in the language model vocabulary.
+
+        Args:
+            word: A string of a single word.
+
+        Returns:
+            A list of float values.
+        
+        Raises:
+        
+        """
         
         wrd = str(word).lower()
         if wrd in self.embeddings_dict:

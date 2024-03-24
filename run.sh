@@ -2,6 +2,8 @@
 # TRAIN_FLAG = $1
 # CHECKPOINT_PATH = $2
 # DATA_PATH = $3 # data/FB15K
+# structural_path = $4
+# text_path = $5
 
 if [ $# -eq 0 ]
 then
