@@ -10,7 +10,7 @@ Typical usage example:
   model = RPEST(output_size = len(relations), settings = settings)
   model = model.train()
 """
-import torch
+
 from torch.utils.data import Dataset
 from typing import Dict, List
 from utils import Utils
