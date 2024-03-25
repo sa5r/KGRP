@@ -45,7 +45,7 @@ def main():
     print(G)
 
     node2vec = Node2Vec(G, dimensions=args.dimensions, walk_length=args.walk_length,
-                        num_walks=args.walks, workers=2)
+                        num_walks=args.walks, workers=4)
     model = node2vec.fit(window=args.window, min_count=1)
     model.wv.save_word2vec_format('n2v_embeddings.csv')
 
