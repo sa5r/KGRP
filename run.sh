@@ -47,7 +47,7 @@ nohup python -u evaluate.py \
   --checkpoint_path $2
 elif [ $1 == "n2v" ]
 then
-python -u n2v.py \
+nohup python -u n2v.py \
   --data_path $2 \
   --dimensions $3 \
   --walk_length $4 \
