@@ -22,7 +22,7 @@ nohup python -u train.py \
   --padding_size 40 \
   --embedding_dimensions 300 \
   --lstm_hidden_size 400 \
-  --lstm_hidden_lstm_layerssize 2 \
+  --lstm_layers 2 \
   --dropout 0.15 \
   --learning_decay 0.35 \
   --batch_size 32 \

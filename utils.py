@@ -11,7 +11,16 @@ Typical usage example:
 
 class Utils:
 
-    def write_log(s, path = 'log.out', prnt = True):
+    """
+    """
+
+    def __init__(self):
+        """
+        """
+
+        pass
+
+    def write_log(self, s, path = 'log.out', prnt = True):
         """Writes a log record in a file.
 
         Writes a log record in a file in the harddrive, with options to specify
@@ -36,7 +45,7 @@ class Utils:
         f.close()
         
 
-    def load_node2vec(path: str):
+    def load_node2vec(self, path: str):
         """Loads Node2Vec embeddings.
 
         Given a path to a Node2Vec generated file. The function loads the
@@ -62,7 +71,7 @@ class Utils:
         print("### Node2Vec loaded")
         return embeddings_dict
 
-    def load_glove(path: str):
+    def load_glove(self, path: str):
         """Loads Glove embeddings.
 
         Given a path to a Glove embeddings. The function loads the
@@ -90,7 +99,7 @@ class Utils:
         print("### Glove loaded, vocab size {len(embeddings_dict.keys())}")
         return embeddings_dict, dict_keys
 
-    def load_entities(path: str):
+    def load_entities(self, path: str):
         """Loads entities dictionary.
 
         Given a path to an entities translation file. The function loads the
@@ -117,7 +126,7 @@ class Utils:
         print('\nEntities loaded')
         return entities_dict
 
-    def load_relations(path: str):
+    def load_relations(self, path: str):
         """Loads relations dictionary.
 
         Given a path to relations translation file. The function loads the

@@ -59,7 +59,7 @@ def main():
 
     # Load utilities
     utils = Utils()
-
+    
     embeddings_dict, dict_keys = utils.load_glove(args.textual_path)
     relations = utils.load_relations(args.data_path + '/relations.txt')
     entities_dict = utils.load_entities(args.data_path + '/entity2text.txt')
