@@ -47,3 +47,9 @@ In our implementation we employ Node2Vec to generate nodes' structural represent
 ```
 ./run.sh train chkpnt.pt data/FB15K n2v_embeddings.csv glove.6B.300d > output.out &
 ```
+
+## Run Evaluation
+
+```
+./run.sh train chkpnt.pt data/FB15K n2v_embeddings.csv glove.6B.300d > output.out &
+```
