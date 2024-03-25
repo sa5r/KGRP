@@ -49,10 +49,10 @@ elif [ $1 == "n2v" ]
 then
 nohup python -u n2v.py \
   --data_path $2 \
-  --dimensions $3 \
-  --walk_length $4 \
-  --walks $5 \
-  --window $6
+  --dimensions 300 \
+  --walk_length 50 \
+  --walks 50 \
+  --window 10
 else
   echo 'Please specify test or train.'
 fi
