@@ -39,7 +39,7 @@ Our model achieves its best performance using **Glove word representation** (6B 
 In our implementation we employ Node2Vec to generate nodes' structural representation. Use the command below to generate the embeddings file.
 
 ```
-./run.sh n2v data/FB15K 300 50 50 10 > output.out &
+./run.sh n2v data/FB15K > output.out &
 ```
 
 ## Run Training
