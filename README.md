@@ -11,19 +11,39 @@ Following are the steps to reproduce the results in our model.
 - PtyTorch 2.1
 - Networkx 2.8
 - TQDM 4
+- node2vec
 
 **Install Requirements**
 ```
 python3 -m pip install torch==2.1*
 python3 -m pip install networkx==2.8*
 python3 -m pip install tqdm
+python3 -m pip install node2vec
 ```
 
-## Pre-trained Language Model
-* Our model achieves its best performance using **Glove word representation** (6B tokens, 400K vocab, uncased, 300d vectors)
+## FreeBase Dataset
+
+We evaluated our model on FB15K, that is a subset of FreeBase dataset. Copy of the dataset is provided in the `data` folder and the raw dataset can be downloaded using the link below.
+
+[Download Raw Dataset](https://www.microsoft.com/en-us/download/details.aspx?id=52312)
+
+
+## Node Text Embeddings (Pre-trained Language Model)
+
+Our model achieves its best performance using **Glove word representation** (6B tokens, 400K vocab, uncased, 300d vectors)
 
 [Download Glove](https://nlp.stanford.edu/projects/glove/)
 
-## Datasets
+## Structural Embeddings
+
+In our implementation we employ Node2Vec to generate nodes' structural representation. Use the command below to generate the embeddings file.
+
+```
+./run.sh train chkpnt.pt data/FB15K 300 50 50 10 > output.out &
+```
 
 ## Run Training
+
+```
+./run.sh train chkpnt.pt data/FB15K n2v_embeddings.csv glove.6B.300d > output.out &
+```
