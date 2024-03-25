@@ -44,6 +44,8 @@ In our implementation we employ Node2Vec to generate nodes' structural represent
 
 ## Run Training
 
+The training script uses the same parameters reported in our paper.
+
 ```
 ./run.sh train chkpnt.pt data/FB15K n2v_embeddings.csv glove.6B.300d > output.out &
 ```
