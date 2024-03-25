@@ -7,7 +7,7 @@ implements the self attention layer in the model's neural network.
 
 Typical usage example:
 
-  model = RPEST(output_size = len(relations), settings = settings)
+  model = RPEST(output_size = len(relations), args = args)
   model = model.train()
 """
 
@@ -45,21 +45,21 @@ class RPEST(torch.nn.Module):
 
     Typical usage example:
 
-    model = RPEST(output_size = relations_len, settings = settings)
+    model = RPEST(output_size = relations_len, args = args)
     model = model.train()
     """
-    def __init__(self,output_size, settings):
+    def __init__(self,output_size:int, args):
         ''
         
         super(RPEST, self).__init__()
-        self.lstm = torch.nn.LSTM((settings['DIMENSIONS'] + 1),
-                                  settings['lstm_hidden_size'] // 2,
-                                  num_layers = settings['lstm_layers'],
+        self.lstm = torch.nn.LSTM((args.embedding_dimensions + 1),
+                                  args.lstm_hidden_size // 2,
+                                  num_layers = args.lstm_layers,
                                   bidirectional=True, batch_first = True)
-        self.attn = SelfAttention(settings['lstm_hidden_size'])
+        self.attn = SelfAttention(args.lstm_hidden_size)
         self.flatten = torch.nn.Flatten()
-        self.dropout = torch.nn.Dropout(settings['dropout'])
-        self.last = torch.nn.Linear(settings['lstm_hidden_size'] * (settings['padding'] + 2),
+        self.dropout = torch.nn.Dropout(args.dropout)
+        self.last = torch.nn.Linear(args.lstm_hidden_size * (args.padding_size + 2),
                                     output_size)
         self.sigmoid = torch.nn.Sigmoid()
 
@@ -80,7 +80,7 @@ class KGDataset(Dataset):
                     entities_dict = entities_dict,
                     descriptions_dict = descriptions_dict ,
                     relations = relations, device=device,
-                    settings=settings, node2vec = node2vec,
+                    args=args, node2vec = node2vec,
                     embeddings_dict = embeddings_dict,
                     dict_keys = dict_keys,)
     """
@@ -91,7 +91,7 @@ class KGDataset(Dataset):
         node2vec: list,
         relations: list,
         device,
-        settings: dict,
+        args,
         embeddings_dict: dict,
         dict_keys,
         ) -> None:
@@ -113,7 +113,7 @@ class KGDataset(Dataset):
         self.descriptions_dict = descriptions_dict
         self.relations = relations
         self.device = device
-        self.settings = settings
+        self.args = args
         self.node2vec = node2vec
         self.embeddings_dict = embeddings_dict
         self.dict_keys = dict_keys
@@ -125,7 +125,7 @@ class KGDataset(Dataset):
         f.close()
 
         # Load lines based on the specified data amount
-        self.lines = file_lines[: int(len(file_lines) * settings['SAMPLE_SIZE']) ]
+        self.lines = file_lines[: int(len(file_lines) * args.data_size) ]
         print(f'\nopened {path}' )
         self.G = nx.MultiGraph()
         for i in range( int( len(self.lines) ) ):
@@ -206,11 +206,11 @@ class KGDataset(Dataset):
             self.embeddings_dict.setdefault(c, self.embeddings_dict[self.dict_keys[ord(c) % 100]]) for c in wrd
         ]
         averaged_embeddings = []
-        for i in range(self.settings['DIMENSIONS']):
+        for i in range(self.args.embedding_dimensions):
             tot = 0
             for j in range(len(char_embeddings)):
                 tot += char_embeddings[j][i]
-            averaged_embeddings.append(tot / self.settings['DIMENSIONS'])
+            averaged_embeddings.append(tot / self.args.embedding_dimensions)
 
         return averaged_embeddings
     
@@ -245,12 +245,12 @@ class KGDataset(Dataset):
 
         words = entity_text.split()
 
-        type_vector = [-1 * self.settings['VECTOR_VALUE']]
+        type_vector = [-1 * self.args.type_scalar]
         if is_head:
-            type_vector = [self.settings['VECTOR_VALUE']]
+            type_vector = [self.args.type_scalar]
 
         # Check if longer than allowed
-        max_size = self.settings['padding'] // 2
+        max_size = self.args.padding_size // 2
         if len(words) > max_size:
             for j in range( max_size - 1 ):
                 embeddings.append( self.get_glove_embedding(words[j]) + type_vector  )
@@ -269,13 +269,13 @@ class KGDataset(Dataset):
             embeddings.append(self.node2vec[ent] + type_vector)
             
         # fill
-        if len(embeddings) < self.settings['padding'] // 2 + 1:
-            filling = [((self.settings['DIMENSIONS'] + 1) * [0.0])] * (self.settings['padding'] // 2 + 1 - len(embeddings))
+        if len(embeddings) < self.args.padding_size // 2 + 1:
+            filling = [((self.args.embedding_dimensions + 1) * [0.0])] * (self.args.padding_size // 2 + 1 - len(embeddings))
             embeddings.extend(filling)
         
                     
         # if is_head: # separator
-        #     embeddings.append( self.settings['DIMENSIONS'] * [-1] )        
+        #     embeddings.append( self.args.DIMENSIONS * [-1] )        
             
         return embeddings
     
