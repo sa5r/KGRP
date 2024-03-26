@@ -15,8 +15,8 @@ Following are the steps to reproduce the results in our model.
 
 **Install Requirements**
 ```
-python3 -m pip install torch==2.1*
-python3 -m pip install networkx==2.8*
+python3 -m pip install torch==2.1
+python3 -m pip install networkx==2.8
 python3 -m pip install tqdm
 python3 -m pip install node2vec
 ```
@@ -47,11 +47,11 @@ In our implementation we employ Node2Vec to generate nodes' structural represent
 The training script uses the same parameters reported in our paper.
 
 ```
-./run.sh train chkpnt.pt data/FB15K n2v_embeddings.csv glove.6B.300d > output.out &
+./run.sh train chkpnt.pt data/FB15K n2v_embeddings.csv glove.6B.300d.txt > output.out &
 ```
 
 ## Run Evaluation
 
 ```
-./run.sh train chkpnt.pt data/FB15K n2v_embeddings.csv glove.6B.300d > output.out &
+./run.sh train chkpnt.pt data/FB15K n2v_embeddings.csv glove.6B.300d.txt > output.out &
 ```

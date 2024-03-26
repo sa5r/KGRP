@@ -1,17 +1,16 @@
-"""Utility functions called by the model operations .
-
-A group of functions necessary to run certain operations for loading
-the model, training, and evaluation.
-
-Typical usage example:
-
-  utils = Utils()
-  n2v_dict = utils.load_node2vec('n2v.txt')
-"""
+from tqdm import tqdm
 
 class Utils:
 
-    """
+    """Utility functions called by the model operations .
+
+    A group of functions necessary to run certain operations for loading
+    the model, training, and evaluation.
+
+    Typical usage example:
+
+    utils = Utils()
+    n2v_dict = utils.load_node2vec('n2v.txt')
     """
 
     def __init__(self):
