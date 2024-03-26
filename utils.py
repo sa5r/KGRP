@@ -95,7 +95,7 @@ class Utils:
                 embeddings_dict[vals[0]] = [float(x) for x in vals[1:]]
 
         dict_keys = list(embeddings_dict.keys())
-        print("### Glove loaded, vocab size {len(embeddings_dict.keys())}")
+        print(f'### Glove loaded, vocab size {len(embeddings_dict.keys())}')
         return embeddings_dict, dict_keys
 
     def load_entities(self, path: str):

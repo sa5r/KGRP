@@ -21,7 +21,7 @@ from torch.optim import lr_scheduler
 from tqdm import tqdm
 import argparse
 
-def seed_worker(self, worker_id):
+def seed_worker(worker_id):
     """Random seeding
     
     """
@@ -49,8 +49,8 @@ def main():
     parser.add_argument('--epochs', required = True, type = int)
     parser.add_argument('--patience', required = True, type = int)
     parser.add_argument('--checkpoint_path', required = True, )
-    parser.add_argument('--type_scalar', required = True, )
-    parser.add_argument('--verbose', required = True, )
+    parser.add_argument('--type_scalar', required = True, type = float)
+    parser.add_argument('--verbose', required = True, type = bool)
     args = parser.parse_args()
 
     # Random seeds

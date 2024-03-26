@@ -311,5 +311,4 @@ class KGDataset(Dataset):
         embeddings.extend(head_embeddings)
         embeddings.extend(tail_embeddings)
 
-
         return torch.Tensor(embeddings),torch.Tensor(relations_tagged)

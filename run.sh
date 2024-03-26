@@ -20,7 +20,7 @@ nohup python -u train.py \
   --data_size 1 \
   --learning_rate 0.0008 \
   --padding_size 40 \
-  --embedding_dimensions 300 \
+  --embedding_dimensions 50 \
   --lstm_hidden_size 400 \
   --lstm_layers 2 \
   --dropout 0.15 \
